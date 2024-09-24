@@ -83,18 +83,18 @@ impl<T: Clone> List<T> {
   }
 }
 
-// impl Iterator for List<T> {
-//   type Item = List;
-//   fn next(&mut self) -> Option<Self::Item> {
-//     match self.clone() {
-//       Cons(_value, n) => {
-//         *self = *n.clone();
-//         Some(*n)
-//       }
-//       Nil => None
-//     }
-//   }
-// }
+impl<T: Clone> Iterator for List<T> {
+  type Item = List<T>;
+  fn next(&mut self) -> Option<Self::Item> {
+    match self.clone() {
+      Cons(value, n) => {
+        *self = *n.clone();
+        Some(Cons(value, Box::new(*n)))
+      }
+      Nil => None
+    }
+  }
+}
 
 #[cfg(test)]
 mod tests {
